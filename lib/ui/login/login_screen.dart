@@ -1,3 +1,4 @@
+import 'package:ecommerce_c8_online/di/di.dart';
 import 'package:ecommerce_c8_online/provider/auth_provider.dart';
 import 'package:ecommerce_c8_online/ui/home/home_screen.dart';
 import 'package:ecommerce_c8_online/ui/login/login_viewModel.dart';
@@ -16,11 +17,12 @@ class LoginScreen extends StatelessWidget {
   var emailController = TextEditingController(text: 'nabil@route.com');
   var passwordController = TextEditingController(text: '123456');
 
-  var loginViewModel = LoginViewModel();
+  LoginViewModel loginViewModel = getIt<LoginViewModel>(); // field injection
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LoginViewModel,LoginViewState>(
-      bloc:loginViewModel ,
+    return BlocConsumer<LoginViewModel, LoginViewState>(
+      bloc: loginViewModel,
       builder: (context, state) {
         return Scaffold(
           body: Container(
@@ -93,7 +95,7 @@ class LoginScreen extends StatelessWidget {
                           Navigator.pushReplacementNamed(context,
                               RegisterScreen.routeName);
                         },child: Text('Don’t have an account? Create Account',
-                        style: Theme.of(context).textTheme.labelMedium,),)
+                          style: Theme.of(context).textTheme.labelMedium,),)
                       ],
                     ),
                   ),
@@ -140,7 +142,6 @@ class LoginScreen extends StatelessWidget {
                 userProvider.login(LoggedInState(state.response.user,
                     state.response.token));
                 Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-
               });
         }
       },

@@ -1,35 +1,18 @@
-import 'package:ecommerce_c8_online/api/ApiManager.dart';
-import 'package:ecommerce_c8_online/data/dataSource/auth_online_dataSource.dart';
-import 'package:ecommerce_c8_online/data/repository/auth_repository.dart';
 import 'package:ecommerce_c8_online/domain/customException/NetworkException.dart';
 import 'package:ecommerce_c8_online/domain/customException/ServerErrorException.dart';
-import 'package:ecommerce_c8_online/domain/dataSource/auth_online_dataSource.dart';
 import 'package:ecommerce_c8_online/domain/model/AuthResultDto.dart';
-import 'package:ecommerce_c8_online/domain/repository/auth_repository.dart';
 import 'package:ecommerce_c8_online/domain/usecase/register_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RegisterViewModel extends Cubit<RegisterViewState>{
-  late ApiManager apiManager ;
-  late AuthOnlineDataSource onlineDataSource ;
-  late AuthRepository authRepository;
-  late RegisterUseCase registerUseCase;
+class RegisterViewModel extends Cubit<RegisterViewState> {
+  RegisterUseCase registerUseCase;
 
-  RegisterViewModel():super(InitialState()){
-    apiManager = ApiManager();
-    onlineDataSource = AuthOnlineDataSourceImpl(apiManager);
-    authRepository = AuthRepositoryImpl(onlineDataSource);
-    registerUseCase = RegisterUseCase(authRepository);
-  }
-
+  RegisterViewModel(this.registerUseCase) : super(InitialState());
 
   // Dependancy injection
 
-  void register(String name,
-      String email,String password,
-      String rePassword,
-      String phone)async{
-
+  void register(String name, String email, String password, String rePassword,
+      String phone) async {
     emit(LoadingState(loadingMessage: 'Loading...'));
     try{
       var response = await registerUseCase.invoke(name, email, phone, password, rePassword);

@@ -1,3 +1,4 @@
+import 'package:ecommerce_c8_online/di/di.dart';
 import 'package:ecommerce_c8_online/provider/auth_provider.dart';
 import 'package:ecommerce_c8_online/ui/home/home_screen.dart';
 import 'package:ecommerce_c8_online/ui/login/login_screen.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  configureDependencies();
   runApp(BlocProvider(
       create: (context) {
         return UserProvider();
@@ -25,12 +27,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.transparent
+            backgroundColor: Colors.transparent
         ),
 
         appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.transparent,
-          elevation: 0
+            backgroundColor: Colors.transparent,
+            elevation: 0
         ),
         primaryColor: MyTheme.primaryColor,
         textTheme: const TextTheme(
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
                 fontWeight: FontWeight.w300,
                 color: MyTheme.primaryColor),
             bodyMedium : TextStyle(
-              fontSize: 14,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: MyTheme.primaryColor
             )

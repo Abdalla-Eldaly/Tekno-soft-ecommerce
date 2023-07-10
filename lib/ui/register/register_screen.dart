@@ -1,3 +1,4 @@
+import 'package:ecommerce_c8_online/di/di.dart';
 import 'package:ecommerce_c8_online/provider/auth_provider.dart';
 import 'package:ecommerce_c8_online/ui/home/home_screen.dart';
 import 'package:ecommerce_c8_online/ui/login/login_screen.dart';
@@ -15,7 +16,8 @@ class RegisterScreen extends StatelessWidget {
 
   var nameController = TextEditingController(text: 'Mohamed nabil');
 
-  var emailController = TextEditingController(text: 'nabil_c8_online_1@route.com');
+  var emailController =
+      TextEditingController(text: 'nabil_c8_online_1@route.com');
 
   var mobileController = TextEditingController(text: '01117576576');
 
@@ -23,18 +25,18 @@ class RegisterScreen extends StatelessWidget {
 
   var passwordConfirmationController = TextEditingController(text: '123456');
 
-  var viewModel = RegisterViewModel();
+  RegisterViewModel viewModel = getIt<RegisterViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<RegisterViewModel,RegisterViewState>(
+    return BlocConsumer<RegisterViewModel, RegisterViewState>(
       bloc: viewModel,
       listenWhen: (previous, current) {
-        if(previous is LoadingState){
+        if (previous is LoadingState) {
           DialogUtils.hideDialoge(context);
         }
-        if(current is SuccessState ||
-        current is LoadingState || current is FailState){
+        if (current is SuccessState ||
+            current is LoadingState || current is FailState){
           return true;
         }
         return false;
@@ -49,7 +51,7 @@ class RegisterScreen extends StatelessWidget {
           // show message
           DialogUtils.showMessage(context,
               state.message?? state.exception?.toString() ??"Something Went Wrong",
-            posActionName: "ok"
+              posActionName: "ok"
           );
         }else if(state is LoadingState){
           //show loading...
@@ -58,16 +60,15 @@ class RegisterScreen extends StatelessWidget {
           // show dialog
           // navigate to home screen
           DialogUtils.showMessage(context, "User Registered Successfully",
-          posActionName: "ok",
-          posAction: (){
-            // save user data // runtime
-            UserProvider userProvider = BlocProvider.of<UserProvider>(context,
-                listen: false);
-            userProvider.login(LoggedInState(state.response.user!,
-                state.response.token!));
-            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-
-          });
+              posActionName: "ok",
+              posAction: (){
+                // save user data // runtime
+                UserProvider userProvider = BlocProvider.of<UserProvider>(context,
+                    listen: false);
+                userProvider.login(LoggedInState(state.response.user!,
+                    state.response.token!));
+                Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+              });
         }
       },
       builder: (context, state) {
@@ -167,10 +168,10 @@ class RegisterScreen extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: (){
-                          Navigator.pushReplacementNamed(context,
-                              LoginScreen.routeName);
-                        },child: Text('Already have account ? login',
-                        style: Theme.of(context).textTheme.labelMedium,
+                            Navigator.pushReplacementNamed(context,
+                                LoginScreen.routeName);
+                          },child: Text('Already have account ? login',
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),)
                       ],
                     ),

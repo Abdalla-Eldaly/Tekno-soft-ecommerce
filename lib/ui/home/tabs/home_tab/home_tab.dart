@@ -1,3 +1,4 @@
+import 'package:ecommerce_c8_online/di/di.dart';
 import 'package:ecommerce_c8_online/ui/components/GenericErrorWidget.dart';
 import 'package:ecommerce_c8_online/ui/components/IniniteLoadingWidget.dart';
 import 'package:ecommerce_c8_online/ui/home/tabs/home_tab/category_section/categories_section.dart';
@@ -11,17 +12,18 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  HomeTabViewModel viewModel = HomeTabViewModel();
+  HomeTabViewModel viewModel = getIt<HomeTabViewModel>();
 
   @override
   void initState() {
     super.initState();
     viewModel.getAllCategories();
   }
+
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HomeTabViewModel,HomeTabViewState>(
-      bloc:viewModel,
+    return BlocConsumer<HomeTabViewModel, HomeTabViewState>(
+      bloc: viewModel,
       builder: (context, state) {
         if(state is LoadingState ){
           return InifiniteLoadingWidget(state.loadingMessage??"");
@@ -34,7 +36,7 @@ class _HomeTabState extends State<HomeTab> {
         }
         else if(state is FailState){
           return GenericErrorWidget(
-            state.message??state.exception.toString()??"");
+              state.message??state.exception.toString()??"");
         }
         return Container();
       },
