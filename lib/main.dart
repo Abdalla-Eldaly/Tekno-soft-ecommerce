@@ -1,40 +1,57 @@
 import 'package:ecommerce_c8_online/di/di.dart';
-import 'package:ecommerce_c8_online/provider/auth_provider.dart';
-import 'package:ecommerce_c8_online/ui/home/home_screen.dart';
-import 'package:ecommerce_c8_online/ui/login/login_screen.dart';
-import 'package:ecommerce_c8_online/ui/my_theme.dart';
-import 'package:ecommerce_c8_online/ui/register/register_screen.dart';
-import 'package:ecommerce_c8_online/ui/splash/splash_screen.dart';
+import 'package:ecommerce_c8_online/provider/Provider.dart';
+import 'package:ecommerce_c8_online/ui/common/product/productDetails/productDetails.dart';
+import 'package:ecommerce_c8_online/my_theme.dart';
+import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/DetailsViewAll/DetailsViewAll.dart';
+import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/HomeScreen.dart';
+import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/HomeTab/HomeTab.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+import 'data/database/firebase_options.dart';
+
+void main() async {
   configureDependencies();
-  runApp(BlocProvider(
-      create: (context) {
-        return UserProvider();
-      },
-      child: const MyApp()));
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        // Add other providers here if needed
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'SnapShop',
       theme: ThemeData(
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            backgroundColor: Colors.transparent
-        ),
-
+            backgroundColor: Colors.transparent),
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.transparent,
-            elevation: 0
+          toolbarHeight: 100,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: MyTheme.primaryColor,
+            size: 30,
+          ),
         ),
-        primaryColor: MyTheme.primaryColor,
+        primaryColor: MyTheme.discountColor,
         textTheme: const TextTheme(
             labelLarge: TextStyle(
                 fontSize: 24,
@@ -48,20 +65,18 @@ class MyApp extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.w300,
                 color: MyTheme.primaryColor),
-            bodyMedium : TextStyle(
+            bodyMedium: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: MyTheme.primaryColor
-            )
-        ),
+                color: MyTheme.primaryColor)),
       ),
       routes: {
-        SplashScreen.routeName: (_) => SplashScreen(),
-        RegisterScreen.routeName: (_) => RegisterScreen(),
-        LoginScreen.routeName: (_) => LoginScreen(),
+        HomeTab.routeName: (_) => HomeTab(),
         HomeScreen.routeName: (_) => HomeScreen(),
+        ProductDetails.routeName: (_) => ProductDetails(),
+        ViewAll.routeName: (_) => ViewAll(),
       },
-      initialRoute: SplashScreen.routeName,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }
