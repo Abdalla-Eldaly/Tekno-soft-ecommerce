@@ -4,10 +4,12 @@ import 'package:ecommerce_c8_online/my_theme.dart';
 import 'package:ecommerce_c8_online/ui/common/product/productDetails/productDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/database/databaseUtlis.dart';
 import '../../../domain/model/Product.dart';
+import '../../../provider/currentprovider.dart';
 
 class ProductWidget extends StatefulWidget {
   final Product product;
@@ -21,6 +23,7 @@ class ProductWidget extends StatefulWidget {
 class _ProductWidgetState extends State<ProductWidget> {
   bool _isFavorite = false;
   var isSelected;
+  int _counter = 0;
   @override
   void initState() {
     super.initState();
@@ -28,16 +31,12 @@ class _ProductWidgetState extends State<ProductWidget> {
   }
 
   void _loadFavoriteState() async {
-    // Get the reference to the Firestore collection
     final collection = FirebaseFirestore.instance.collection('favorites');
 
-    // Use the product ID as the document ID
     final documentId = widget.product.id.toString();
 
-    // Get the document from Firestore
     final document = await collection.doc(documentId).get();
 
-    // Update the favorite state
     setState(() {
       _isFavorite = document.exists ? document['isFavorite'] : false;
     });
@@ -56,6 +55,8 @@ class _ProductWidgetState extends State<ProductWidget> {
 
   @override
   Widget build(BuildContext context) {
+    CounterProvider counterProvider = Provider.of<CounterProvider>(context);
+
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
@@ -181,14 +182,23 @@ class _ProductWidgetState extends State<ProductWidget> {
               onTap: () {
                 setState(() {
                   _isFavorite = !_isFavorite;
+
+                  if (_isFavorite) {
+                    counterProvider.increment();
+                  } else {
+                    counterProvider.decrement();
+                  }
+
+
                 });
 
                 _saveFavoriteState();
+                print('counter ======================== ${counterProvider.counter}');
               },
               child: Icon(
                 _isFavorite ? Icons.check_circle_outline : Icons.add_circle,
                 size: 40,
-                color: _isFavorite ? MyTheme.BottonColor : MyTheme.BottonColor,
+                color: _isFavorite ? Colors.green : MyTheme.BottonColor,
               ),
             ),
           ),

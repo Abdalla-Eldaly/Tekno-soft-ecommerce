@@ -24,15 +24,15 @@ class CounterWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             IconButton(
-              icon: Icon(Icons.remove_circle, color: Colors.white),
+              icon: const Icon(Icons.remove_circle, color: Colors.white),
               onPressed: onDecrement,
             ),
-            SizedBox(width: 6.0),
+            const SizedBox(width: 6.0),
             Text(
               '$counter',
               style: TextStyle(fontSize: 20.0, color: Colors.white),
             ),
-            SizedBox(width: 6.0),
+            const SizedBox(width: 6.0),
             IconButton(
               icon: Icon(Icons.add_circle, color: Colors.white),
               onPressed: onIncrement,

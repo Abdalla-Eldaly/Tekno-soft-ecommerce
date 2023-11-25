@@ -1,5 +1,6 @@
 import 'package:ecommerce_c8_online/di/di.dart';
 import 'package:ecommerce_c8_online/provider/Provider.dart';
+import 'package:ecommerce_c8_online/provider/currentprovider.dart';
 import 'package:ecommerce_c8_online/ui/common/product/productDetails/productDetails.dart';
 import 'package:ecommerce_c8_online/my_theme.dart';
 import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/DetailsViewAll/DetailsViewAll.dart';
@@ -24,6 +25,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FavoriteProvider()),
+        ChangeNotifierProvider(create: (_) => CounterProvider()), // Add CounterProvider here
         // Add other providers here if needed
       ],
       child: MyApp(),

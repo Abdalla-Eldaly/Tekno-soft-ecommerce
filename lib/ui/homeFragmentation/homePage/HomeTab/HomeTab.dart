@@ -154,43 +154,51 @@ class _HomeTabState extends State<HomeTab> {
               const SliverToBoxAdapter(
                 child: SizedBox(height: 50),
               ),
-              SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 120,
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Popular Brands',
-                          style: GoogleFonts.poppins(
-                            textStyle: const TextStyle(
-                              color: MyTheme.primaryColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500,
-                              height: 0.06,
-                              letterSpacing: -0.17,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: brands?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: HomeBrandWidget(brands![index]),
-                          );
-                        },
-                      ),
-                    ),
-                  ]),
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: SizedBox(
+              //     height: 120,
+              //     child: Column(children: [
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Text(
+              //             'Popular Brands',
+              //             style: GoogleFonts.poppins(
+              //               textStyle: const TextStyle(
+              //                 color: MyTheme.primaryColor,
+              //                 fontSize: 18,
+              //                 fontWeight: FontWeight.w500,
+              //                 height: 0.06,
+              //                 letterSpacing: -0.17,
+              //               ),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       Expanded(
+              //         child: ListView.builder(
+              //           scrollDirection: Axis.horizontal,
+              //           itemCount: brands?.length ?? 0,
+              //
+              //           itemBuilder: (context, index) {
+              //             print("Creating HomeBrandWidget for index $index");
+              //             print('objectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobjectobject');
+              //             if (brands != null && index < brands.length) {
+              //               return Padding(
+              //                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //                 child: HomeBrandWidget(brands![index]),
+              //               );
+              //             } else {
+              //               return Container();
+              //             }
+              //           },
+              //         ),
+              //       ),
+              //
+              //
+              //     ]),
+              //   ),
+              // ),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * .5,
@@ -241,7 +249,7 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                     Expanded(
                       child: CarouselSlider.builder(
-                        itemCount: brands?.length ?? 0,
+                        itemCount: products?.length ?? 0, // Use the length of the products list
                         options: CarouselOptions(
                           enableInfiniteScroll: true,
                           disableCenter: false,
@@ -250,16 +258,12 @@ class _HomeTabState extends State<HomeTab> {
                           viewportFraction: 0.6,
                           scrollDirection: Axis.horizontal,
                         ),
-                        itemBuilder:
-                            (BuildContext context, int index, int realIndex) {
-                          return Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ProductWidget(products![index]),
-                          );
+                        itemBuilder: (context, index, realIndex) {
+                          return ProductWidget(products![index]);
                         },
                       ),
                     ),
+
                   ]),
                 ),
               ),

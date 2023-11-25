@@ -21,4 +21,7 @@ class FavoriteProvider extends ChangeNotifier {
     _favorites[productId] = !_favorites[productId]!;
     notifyListeners();
   }
-}
+
+
+  }
+
