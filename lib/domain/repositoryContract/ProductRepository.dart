@@ -1,4 +1,4 @@
-import 'package:ecommerce_c8_online/domain/model/Product.dart';
+import 'package:esayshop/domain/model/Product.dart';
 
 abstract class ProductRepository {
   Future<List<Product>?> getProduct({productSort? bySort});

@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce_c8_online/domain/model/Category.dart';
+import 'package:esayshop/domain/model/Category.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../domain/model/Brands.dart';

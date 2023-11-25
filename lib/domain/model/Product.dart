@@ -1,4 +1,4 @@
-import 'package:ecommerce_c8_online/data/model/BrandResponies/BrandDto.dart';
+import 'package:esayshop/data/model/BrandResponies/BrandDto.dart';
 
 import '../../data/model/productResponies/SubcategoryDto.dart';
 import 'Category.dart';

@@ -1,6 +1,6 @@
 {
-    "name": "ecommerce_c8_online",
-    "short_name": "ecommerce_c8_online",
+    "name": "esayshop",
+    "short_name": "esayshop",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecommerce_c8_online/domain/model/Product.dart';
+import 'package:esayshop/domain/model/Product.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../../my_theme.dart';
@@ -42,7 +42,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         ),
         actions: [
-          const Icon(Icons.search),
+
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.shopping_cart),

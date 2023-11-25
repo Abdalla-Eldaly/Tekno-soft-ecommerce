@@ -1,8 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerce_c8_online/domain/model/Brands.dart';
-import 'package:ecommerce_c8_online/domain/model/Product.dart';
-import 'package:ecommerce_c8_online/my_theme.dart';
-import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/DetailsViewAll/DetailsViewAll.dart';
+import 'package:esayshop/domain/model/Brands.dart';
+import 'package:esayshop/domain/model/Product.dart';
+import 'package:esayshop/my_theme.dart';
+import 'package:esayshop/ui/homeFragmentation/homePage/DetailsViewAll/DetailsViewAll.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';

@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:ecommerce_c8_online/domain/repositoryContract/ProductRepository.dart';
+import 'package:esayshop/domain/repositoryContract/ProductRepository.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
 

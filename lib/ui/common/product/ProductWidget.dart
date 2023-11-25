@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_c8_online/my_theme.dart';
-import 'package:ecommerce_c8_online/ui/common/product/productDetails/productDetails.dart';
+import 'package:esayshop/my_theme.dart';
+import 'package:esayshop/ui/common/product/productDetails/productDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';

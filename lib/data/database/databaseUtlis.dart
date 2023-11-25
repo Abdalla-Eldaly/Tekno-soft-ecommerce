@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecommerce_c8_online/domain/model/Product.dart';
+import 'package:esayshop/domain/model/Product.dart';
 
 class DatabaseUtils {
   // Get the collection reference for the "Products" collection

@@ -1,11 +1,11 @@
-import 'package:ecommerce_c8_online/di/di.dart';
-import 'package:ecommerce_c8_online/provider/Provider.dart';
-import 'package:ecommerce_c8_online/provider/currentprovider.dart';
-import 'package:ecommerce_c8_online/ui/common/product/productDetails/productDetails.dart';
-import 'package:ecommerce_c8_online/my_theme.dart';
-import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/DetailsViewAll/DetailsViewAll.dart';
-import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/HomeScreen.dart';
-import 'package:ecommerce_c8_online/ui/homeFragmentation/homePage/HomeTab/HomeTab.dart';
+import 'package:esayshop/di/di.dart';
+import 'package:esayshop/provider/Provider.dart';
+import 'package:esayshop/provider/currentprovider.dart';
+import 'package:esayshop/ui/common/product/productDetails/productDetails.dart';
+import 'package:esayshop/my_theme.dart';
+import 'package:esayshop/ui/homeFragmentation/homePage/DetailsViewAll/DetailsViewAll.dart';
+import 'package:esayshop/ui/homeFragmentation/homePage/HomeScreen.dart';
+import 'package:esayshop/ui/homeFragmentation/homePage/HomeTab/HomeTab.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';

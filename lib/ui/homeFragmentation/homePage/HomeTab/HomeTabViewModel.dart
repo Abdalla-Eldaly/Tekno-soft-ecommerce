@@ -1,6 +1,6 @@
 
-import 'package:ecommerce_c8_online/domain/model/Brands.dart';
-import 'package:ecommerce_c8_online/domain/usecase/getProductUseCase.dart';
+import 'package:esayshop/domain/model/Brands.dart';
+import 'package:esayshop/domain/usecase/getProductUseCase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
