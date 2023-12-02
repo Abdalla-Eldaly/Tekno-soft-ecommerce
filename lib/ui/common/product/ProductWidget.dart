@@ -5,7 +5,6 @@ import 'package:esayshop/ui/common/product/productDetails/productDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../data/database/databaseUtlis.dart';
 import '../../../domain/model/Product.dart';
@@ -23,7 +22,6 @@ class ProductWidget extends StatefulWidget {
 class _ProductWidgetState extends State<ProductWidget> {
   bool _isFavorite = false;
   var isSelected;
-  int _counter = 0;
   @override
   void initState() {
     super.initState();

@@ -1,8 +1,8 @@
+import 'package:esayshop/ui/wishListFragmentation/WishList.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../provider/currentprovider.dart';
 import '../../CategoryFragmentation/CategoryTab.dart';
-import '../../FavouriteFragmentation/FavouriteTab.dart';
 import '../../PersonFragmentation/PersonTab.dart';
 import '../../common/product/productDetails/productDetails.dart';
 import 'BottomNavIcon.dart';
@@ -16,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+   int selectedIndex = 0;
 
   TextEditingController search = TextEditingController();
   String query = '';
@@ -177,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> tabs = [
     HomeTab(),
     CategoryTab(),
-    FavouriteTab(),
+    WishListTab(),
     PersonTab(),
   ];
 }
