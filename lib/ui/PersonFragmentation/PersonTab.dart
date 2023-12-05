@@ -16,7 +16,7 @@ class PersonTab extends StatelessWidget {
           googleSignIn.disconnect();
           await FirebaseAuth.instance.signOut();
           Navigator.pushNamedAndRemoveUntil(context, Login.routeName, (route) => false);
-        }, icon: Icon(Icons.logout),),
+        }, icon: Icon(Icons.logout ),),
       ),
     );
   }
