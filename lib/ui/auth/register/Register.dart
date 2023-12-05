@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:path/path.dart' as Path;
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import '../../homeFragmentation/homePage/HomeScreen.dart';
 import '../RegExp/RegExp.dart';
 import '../dialigoUtli/DilaogUtali.dart';
@@ -302,35 +304,49 @@ class _RegisterState extends State<Register> {
         User? user = FirebaseAuth.instance.currentUser;
         await user?.sendEmailVerification();
         dialogShown.hideDialog(context);
-        dialogShown.showMessage(context, message: 'Register Succseesfully.',posActionTitle: 'OK',
-        posAction: (){
-          if(result.user!.emailVerified){
-            Navigator.pushReplacementNamed(context, Login.routeName);
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Registered Successfully!',
+          confirmBtnText: 'Okey',
+          onConfirmBtnTap: (){
+           Navigator.pushReplacementNamed(context, Login.routeName);
           }
-          else{
-            FirebaseAuth.instance.currentUser!.sendEmailVerification();
 
-            dialogShown.showMessage(context, message: 'Verifiy your email.',posActionTitle: 'tryAgain',);
 
-          }
-        });
+        );
 
       }
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
-        dialogShown.showMessage(context, message: 'The password provided is too weak.',posActionTitle: 'OK',);
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.warning,
+          text: 'The password provided is too weak.',
+          confirmBtnText: 'Ok'
+        );
 
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
         dialogShown.hideDialog(context);
 
-        dialogShown.showMessage(context, message: 'The account already exists for that email.',posActionTitle: 'tryAgain');
+        QuickAlert.show(
+            context: context,
+            type: QuickAlertType.warning,
+            text: 'The account already exists for that email.',
+            confirmBtnText: 'Try again'
+        );
       }
     } catch (e) {
       print(e);
-      dialogShown.showMessage(context, message: 'some thing wrong.',posActionTitle: 'OK');
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: 'Sorry, something went wrong',
+      );
 
     }
 

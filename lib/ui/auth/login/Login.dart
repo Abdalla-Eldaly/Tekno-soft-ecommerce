@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 import '../../../di/di.dart';
 import '../dialigoUtli/DilaogUtali.dart';
@@ -286,20 +288,24 @@ class _LoginState extends State<Login> {
         password: _passwordController.text,
       );
       dialogUtils.hideDialog(context);
-      dialogUtils.showMessage(
-        context,
-        message: 'Login Successfully',
-        posActionTitle: 'Ok',
-        posAction: () {
-          Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-        },
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Login Successfully!',
+          confirmBtnText: 'Okey',
+          onConfirmBtnTap: (){
+            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+          }
+
+
       );
     } on FirebaseAuthException catch (e) {
       dialogUtils.hideDialog(context);
-      dialogUtils.showMessage(
-        context,
-        message: 'Email or password is wrong',
-        posActionTitle: 'ok',
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: 'Sorry, something went wrong',
       );
       if (e.code == 'user-not-found') {
         dialogUtils.showMessage(context, message: 'No user found for that email.', posActionTitle: 'Ok', );
