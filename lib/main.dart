@@ -2,6 +2,7 @@ import 'package:esayshop/di/di.dart';
 import 'package:esayshop/provider/Provider.dart';
 import 'package:esayshop/provider/currentprovider.dart';
 import 'package:esayshop/ui/PersonFragmentation/Help&SupportScreen.dart';
+import 'package:esayshop/ui/PersonFragmentation/PrivacyPolicyScreen.dart';
 import 'package:esayshop/ui/auth/login/Login.dart';
 import 'package:esayshop/ui/auth/register/Register.dart';
 import 'package:esayshop/ui/common/product/productDetails/productDetails.dart';
@@ -101,6 +102,7 @@ class MyApp extends StatelessWidget {
           Login.routeName: (_) => Login(),
           Register.routeName: (_) => Register(),
           HelpAndSupportScreen.routeName: (_) => HelpAndSupportScreen(),
+          PrivacyPolicyScreen.routeName: (_) => PrivacyPolicyScreen(),
         },
 
       ),

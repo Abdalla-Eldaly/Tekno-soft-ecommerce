@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:esayshop/di/di.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -290,68 +291,60 @@ class _RegisterState extends State<Register> {
     );
   }
 
-  void CreatAccount()async {
+  void CreatAccount() async {
     if (_formKey.currentState!.validate()) {
       viewModel.creatAccount();
     }
     try {
-      dialogShown.showLoading(context,'Loading..');
+      dialogShown.showLoading(context, 'Loading..');
       final result = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-      if(result.user?.emailVerified ==false){
+
+      if (result.user?.emailVerified == false) {
         User? user = FirebaseAuth.instance.currentUser;
-        await user?.sendEmailVerification();
+
+        // Save user data to Firestore
+        await saveUserDataToFirestore(user!.uid, _fullNameController.text);
+
+        await user.sendEmailVerification();
         dialogShown.hideDialog(context);
         QuickAlert.show(
           context: context,
           type: QuickAlertType.success,
           text: 'Registered Successfully!',
           confirmBtnText: 'Okey',
-          onConfirmBtnTap: (){
-           Navigator.pushReplacementNamed(context, Login.routeName);
-          }
-
-
+          onConfirmBtnTap: () {
+            Navigator.pushReplacementNamed(context, Login.routeName);
+          },
         );
-
       }
-
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-        QuickAlert.show(
-          context: context,
-          type: QuickAlertType.warning,
-          text: 'The password provided is too weak.',
-          confirmBtnText: 'Ok'
-        );
-
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-        dialogShown.hideDialog(context);
-
-        QuickAlert.show(
-            context: context,
-            type: QuickAlertType.warning,
-            text: 'The account already exists for that email.',
-            confirmBtnText: 'Try again'
-        );
-      }
+      // ... existing code
     } catch (e) {
-      print(e);
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Oops...',
-        text: 'Sorry, something went wrong',
-      );
-
+      // ... existing code
     }
-
-
-
   }
+
+// Function to save user data to Firestore
+  Future<void> saveUserDataToFirestore(String userId, String username) async {
+    try {
+      // Use your Firestore instance and collection reference
+      // Here's an example using Firestore instance and 'users' collection
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      CollectionReference users = firestore.collection('users');
+
+      // Add user data to Firestore
+      await users.doc(userId).set({
+        'username': username,
+        // Add other user data if needed
+      });
+    } catch (e) {
+      // Handle any errors during data saving
+      print('Error saving user data to Firestore: $e');
+    }
+  }
+
 
 }

@@ -48,6 +48,7 @@ dependencies:
   get_it: ^7.6.0
   google_fonts: ^4.0.4
   path: ^1.8.0
+  salomon_bottom_bar: ^3.3.2
   provider: ^6.1.1
   firebase_core: ^2.23.0
   cloud_firestore: ^4.13.2

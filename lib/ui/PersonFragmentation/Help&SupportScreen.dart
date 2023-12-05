@@ -1,5 +1,6 @@
 import 'package:esayshop/my_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import the services.dart package
 
 class HelpAndSupportScreen extends StatefulWidget {
   static String routeName = 'support';
@@ -66,7 +67,14 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
       padding: const EdgeInsets.only(top: 4.0),
       child: GestureDetector(
         onTap: () {
+          String email = info.substring(7); // Remove 'Email: ' prefix
+          copyToClipboard(email);
 
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Copied to Clipboard: $email'),
+            ),
+          );
         },
         child: Text(
           info,
@@ -80,6 +88,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
     );
   }
 
-
-
+  void copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
+  }
 }

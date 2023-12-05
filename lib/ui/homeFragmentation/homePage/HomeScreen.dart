@@ -1,10 +1,13 @@
-import 'package:esayshop/ui/wishListFragmentation/WishList.dart';
+import 'package:esayshop/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
+
 import '../../../provider/currentprovider.dart';
 import '../../CategoryFragmentation/CategoryTab.dart';
 import '../../PersonFragmentation/PersonTab.dart';
 import '../../common/product/productDetails/productDetails.dart';
+import '../../wishListFragmentation/WishList.dart';
 import 'BottomNavIcon.dart';
 import 'HomeTab/HomeTab.dart';
 
@@ -16,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-   int selectedIndex = 0;
+  int selectedIndex = 0;
 
   TextEditingController search = TextEditingController();
   String query = '';
@@ -27,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
       cartCounter = newCounter;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     CounterProvider counterProvider = Provider.of<CounterProvider>(context);
@@ -90,84 +94,70 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    // Handle shopping cart icon tap
-                  },
-                  icon: Stack(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        child: Icon(Icons.shopping_cart_outlined, size: 32),
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: CircleAvatar(
-                          radius: 10,
-                          backgroundColor: Colors.red,
-                          child: Text(
-                            '${counterProvider.counter}',
-                            style: TextStyle(fontSize: 12, color: Colors.white),
-                          ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  // Handle shopping cart icon tap
+                },
+                icon: Stack(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(Icons.shopping_cart_outlined, size: 32),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: CircleAvatar(
+                        radius: 10,
+                        backgroundColor: Colors.red,
+                        child: Text(
+                          '${counterProvider.counter}',
+                          style: TextStyle(fontSize: 12, color: Colors.white),
                         ),
                       ),
-                    ],
-                  ),
-                ),            ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(7),
-              topRight: Radius.circular(7),
-            ),
-          ),
-          child: BottomNavigationBar(
-            currentIndex: selectedIndex,
-            onTap: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            items: [
-              BottomNavigationBarItem(
-                backgroundColor: Theme.of(context).primaryColor,
-                icon: BottomNavIcon(
-                  iconName: 'ic_home',
-                  isSelected: true,
+                    ),
+                  ],
                 ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Theme.of(context).primaryColor,
-                icon: BottomNavIcon(
-                  iconName: 'ic_categories',
-                  isSelected: true,
-                ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Theme.of(context).primaryColor,
-                icon: BottomNavIcon(
-                  iconName: 'ic_favorites',
-                  isSelected: true,
-                ),
-                label: '',
-              ),
-              BottomNavigationBarItem(
-                backgroundColor: Theme.of(context).primaryColor,
-                icon: BottomNavIcon(
-                  iconName: 'ic_account',
-                  isSelected: true,
-                ),
-                label: '',
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: SalomonBottomBar(
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          items: [
+            SalomonBottomBarItem(
+
+              icon: Icon(Icons.home,size: 30,),
+
+              title: Text('Home'),
+              selectedColor: Colors.white,
+            ),
+            SalomonBottomBarItem(
+              icon: Icon(Icons.category,size: 30,),
+              title: Text('Categories'),
+              selectedColor: Colors.white,
+            ),
+            SalomonBottomBarItem(
+              icon: Icon(Icons.favorite,size: 30,),
+              title: Text('Favorites'),
+              selectedColor: Colors.white,
+            ),
+            SalomonBottomBarItem(
+              icon: Icon(Icons.account_circle,size: 30,),
+              title: Text('Account'),
+              selectedColor: Colors.white,
+            ),
+          ],
+          selectedItemColor: Colors.white, // Customize the selected item color
+          unselectedItemColor: Colors.white, // Customize the unselected item color
+          backgroundColor:MyTheme.BottonColor, // Customize the bottom bar background color
+          itemPadding: EdgeInsets.all(7),
         ),
         body: tabs[selectedIndex],
       ),
