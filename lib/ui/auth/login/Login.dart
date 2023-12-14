@@ -294,7 +294,7 @@ class _LoginState extends State<Login> {
           text: 'Login Successfully!',
           confirmBtnText: 'Okey',
           onConfirmBtnTap: (){
-            Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+            Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (route) => false);
           }
 
 

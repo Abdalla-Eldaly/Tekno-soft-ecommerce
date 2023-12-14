@@ -8,6 +8,7 @@ import 'package:share/share.dart';
 
 import '../auth/login/Login.dart';
 import 'Help&SupportScreen.dart';
+import 'imagePicker/ImagePicker.dart';
 import 'PrivacyPolicyScreen.dart';
 
 class PersonTab extends StatelessWidget {
@@ -20,24 +21,194 @@ class PersonTab extends StatelessWidget {
         future: FirebaseAuth.instance.authStateChanges().first,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.data == null) {
-            return Text('User not logged in');
+            return SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          maxRadius: 65,
+                          backgroundColor: Colors.grey.shade300,
+                          child: Icon(
+                            Icons.person,
+                            size: MediaQuery.of(context).size.height * .130,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Guest",
+                          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
+                        )
+                      ],
+                    ),
+
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      children: [
+                        Card(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          color: Colors.white70,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context, PrivacyPolicyScreen.routeName);
+                            },
+                            leading: Icon(
+                              Icons.privacy_tip_sharp,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Privacy',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          color: Colors.white70,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context, HelpAndSupportScreen.routeName);
+                            },
+                            leading:
+                            Icon(Icons.help_outline, color: Colors.black54),
+                            title: Text(
+                              'Help & Support',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          color: Colors.white70,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: const ListTile(
+                            leading: Icon(
+                              Icons.settings_applications_outlined,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Settings',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          color: Colors.white70,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: ListTile(
+                            onTap: () {
+                              shareApp(context);
+                            },
+                            leading: Icon(
+                              Icons.add_reaction_sharp,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Invite a Friend',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Card(
+                          color: Colors.white70,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          child: ListTile(
+                            onTap: () async {
+                              GoogleSignIn googleSignIn = GoogleSignIn();
+                              googleSignIn.disconnect();
+                              await FirebaseAuth.instance.signOut();
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.warning,
+                                text: 'Are you sure Logout ',
+                                confirmBtnText: 'Okey',
+                                onConfirmBtnTap: () {
+                                  Navigator.pushReplacementNamed(context, Login.routeName);
+                                },
+                              );
+                            },
+                            leading: Icon(
+                              Icons.logout,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              'Logout',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios_outlined),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            );
           } else {
             User user = snapshot.data!;
             return FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance.collection('users').doc(user.uid).get(),
               builder: (context, userSnapshot) {
                 if (userSnapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
+                  return Center(child: CircularProgressIndicator());
                 } else if (userSnapshot.hasError) {
-                  return Text('Error: ${userSnapshot.error}');
+                  return Center(child: Text('Error: ${userSnapshot.error}'));
                 } else if (!userSnapshot.hasData || !userSnapshot.data!.exists) {
-                  return Text('User data not found in Firestore');
-                } else {
-                  String username = userSnapshot.data!.get('username');
                   return SingleChildScrollView(
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -58,6 +229,174 @@ class PersonTab extends StatelessWidget {
                                   color: Colors.grey,
                                 ),
                               ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                 "Guest",
+                                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 26),
+                              )
+                            ],
+                          ),
+
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Column(
+                            children: [
+                              Card(
+                                margin: const EdgeInsets.only(bottom: 10),
+                                color: Colors.white70,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, PrivacyPolicyScreen.routeName);
+                                  },
+                                  leading: Icon(
+                                    Icons.privacy_tip_sharp,
+                                    color: Colors.black54,
+                                  ),
+                                  title: Text(
+                                    'Privacy',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, HelpAndSupportScreen.routeName);
+                                  },
+                                  leading:
+                                  Icon(Icons.help_outline, color: Colors.black54),
+                                  title: Text(
+                                    'Help & Support',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: const ListTile(
+                                  leading: Icon(
+                                    Icons.settings_applications_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                  title: Text(
+                                    'Settings',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(Icons.arrow_forward_ios_outlined),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ListTile(
+                                  onTap: () {
+                                    shareApp(context);
+                                  },
+                                  leading: Icon(
+                                    Icons.add_reaction_sharp,
+                                    color: Colors.black54,
+                                  ),
+                                  title: Text(
+                                    'Invite a Friend',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ListTile(
+                                  onTap: () async {
+                                    GoogleSignIn googleSignIn = GoogleSignIn();
+                                    googleSignIn.disconnect();
+                                    await FirebaseAuth.instance.signOut();
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.warning,
+                                      text: 'Are you sure Logout ',
+                                      confirmBtnText: 'Okey',
+                                      onConfirmBtnTap: () {
+                                        Navigator.pushReplacementNamed(context, Login.routeName);
+                                      },
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.logout,
+                                    color: Colors.black54,
+                                  ),
+                                  title: Text(
+                                    'Logout',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(Icons.arrow_forward_ios_outlined),
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  String username = userSnapshot.data!.get('username');
+                  return SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              //UserProfileImagePicker()
                             ],
                           ),
                           const SizedBox(
@@ -111,137 +450,107 @@ class PersonTab extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                              Column(
-                                children: [
-                                  Card(
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    color: Colors.white70,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20)),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.pushNamed(context, PrivacyPolicyScreen.routeName);
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ListTile(
+                                  onTap: () {
+                                    Navigator.pushNamed(context, HelpAndSupportScreen.routeName);
+                                  },
+                                  leading:
+                                  Icon(Icons.help_outline, color: Colors.black54),
+                                  title: Text(
+                                    'Help & Support',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: const ListTile(
+                                  leading: Icon(
+                                    Icons.settings_applications_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                  title: Text(
+                                    'Settings',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(Icons.arrow_forward_ios_outlined),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ListTile(
+                                  onTap: () {
+                                    shareApp(context);
+                                  },
+                                  leading: Icon(
+                                    Icons.add_reaction_sharp,
+                                    color: Colors.black54,
+                                  ),
+                                  title: Text(
+                                    'Invite a Friend',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_outlined,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Card(
+                                color: Colors.white70,
+                                margin: const EdgeInsets.only(bottom: 10),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: ListTile(
+                                  onTap: () async {
+                                    GoogleSignIn googleSignIn = GoogleSignIn();
+                                    googleSignIn.disconnect();
+                                    await FirebaseAuth.instance.signOut();
+                                    QuickAlert.show(
+                                      context: context,
+                                      type: QuickAlertType.warning,
+                                      text: 'Are you sure Logout ',
+                                      confirmBtnText: 'Okey',
+                                      onConfirmBtnTap: () {
+                                        Navigator.pushReplacementNamed(context, Login.routeName);
                                       },
-                                      leading: Icon(
-                                        Icons.privacy_tip_sharp,
-                                        color: Colors.black54,
-                                      ),
-                                      title: Text(
-                                        'Privacy',
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                      ),
-                                      trailing: Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.logout,
+                                    color: Colors.black54,
                                   ),
-                                  const SizedBox(
-                                    height: 10,
+                                  title: Text(
+                                    'Logout',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                                   ),
-
-                                  Card(
-                                    color: Colors.white70,
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20)),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.pushNamed(context, HelpAndSupportScreen.routeName);
-                                      },
-                                      leading:
-                                      Icon(Icons.help_outline, color: Colors.black54),
-                                      title: Text(
-                                        'Help & Support',
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                      ),
-                                      trailing: Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Card(
-                                    color: Colors.white70,
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(20)),
-                                    child: const ListTile(
-                                      leading: Icon(
-                                        Icons.settings_applications_outlined,
-                                        color: Colors.black54,
-                                      ),
-                                      title: Text(
-                                        'Settings',
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                      ),
-                                      trailing: Icon(Icons.arrow_forward_ios_outlined),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Card(
-                                    color: Colors.white70,
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: ListTile(
-                                      onTap: () {
-                                        shareApp(context);
-                                      },
-                                      leading: Icon(
-                                        Icons.add_reaction_sharp,
-                                        color: Colors.black54,
-                                      ),
-                                      title: Text(
-                                        'Invite a Friend',
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                      ),
-                                      trailing: Icon(
-                                        Icons.arrow_forward_ios_outlined,
-                                        color: Colors.black54,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Card(
-                                    color: Colors.white70,
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                                    child: ListTile(
-                                      onTap: () async {
-                                        GoogleSignIn googleSignIn = GoogleSignIn();
-                                        googleSignIn.disconnect();
-                                        await FirebaseAuth.instance.signOut();
-                                        QuickAlert.show(
-                                          context: context,
-                                          type: QuickAlertType.warning,
-                                          text: 'Are you sure Logout ',
-                                          confirmBtnText: 'Okey',
-                                          onConfirmBtnTap: () {
-                                            Navigator.pushReplacementNamed(context, Login.routeName);
-                                          },
-                                        );
-                                      },
-                                      leading: Icon(
-                                        Icons.logout,
-                                        color: Colors.black54,
-                                      ),
-                                      title: Text(
-                                        'Logout',
-                                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                      ),
-                                      trailing: Icon(Icons.arrow_forward_ios_outlined),
-                                    ),
-                                  )
-                                ],
+                                  trailing: Icon(Icons.arrow_forward_ios_outlined),
+                                ),
                               )
                             ],
                           )
